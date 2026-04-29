@@ -92,12 +92,18 @@ export function TimeClock() {
   const [currentRecord, setCurrentRecord] = useState<TimeRecord | null>(null);
   const [clocking, setClocking] = useState(false);
   const [message, setMessage] = useState('');
+  const [now, setNow] = useState(new Date());
   const currentUser = getCurrentUser();
   const isEmployee = currentUser?.role === 'employee';
   const searchTerm = (searchParams.get('search') || '').trim().toLowerCase();
 
   useEffect(() => {
     loadData();
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 1000);
+    return () => window.clearInterval(timer);
   }, []);
 
   const loadData = async () => {
@@ -233,14 +239,14 @@ export function TimeClock() {
           <CardContent>
             <div className="clock-display">
               <div className="current-time">
-                {new Date().toLocaleTimeString('en-US', { 
+                {now.toLocaleTimeString('en-US', {
                   hour: '2-digit', 
                   minute: '2-digit',
                   second: '2-digit'
                 })}
               </div>
               <div className="current-date">
-                {new Date().toLocaleDateString('en-US', { 
+                {now.toLocaleDateString('en-US', {
                   weekday: 'long',
                   year: 'numeric',
                   month: 'long',

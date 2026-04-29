@@ -68,6 +68,7 @@ export function WorkSchedule() {
   const [timeMessage, setTimeMessage] = useState('');
   const [timeActionLoading, setTimeActionLoading] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [now, setNow] = useState(new Date());
   const [activeTab, setActiveTab] = useState<'overview' | 'schedule' | 'employees' | 'approvals'>('overview');
   const isAdmin = currentUser.role === 'admin' || currentUser.role === 'manager';
 
@@ -88,6 +89,11 @@ export function WorkSchedule() {
 
   useEffect(() => {
     loadData();
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 1000);
+    return () => window.clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -337,6 +343,22 @@ export function WorkSchedule() {
           <CardHeader title="Time Clock" subtitle="Clock in, take meal break, and clock out" />
           <CardContent>
             <div className="employee-time-clock">
+              <div className="employee-live-clock">
+                <strong>
+                  {now.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                  })}
+                </strong>
+                <span>
+                  {now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
               <div className="time-clock-status">
                 <span>Status</span>
                 <strong>
