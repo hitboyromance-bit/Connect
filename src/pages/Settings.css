@@ -274,7 +274,7 @@
 
 .theme-option.active {
   border-color: var(--primary);
-  background: #EFF6FF;
+  background: rgba(63, 107, 86, 0.12);
 }
 
 .theme-preview {

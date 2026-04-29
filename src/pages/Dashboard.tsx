@@ -66,8 +66,19 @@ export function Dashboard() {
         employee.employeeNumber.toLowerCase().includes(searchTerm) ||
         employee.position.toLowerCase().includes(searchTerm) ||
         employee.department.toLowerCase().includes(searchTerm)
-      ))
+    ))
     : recentEmployees;
+  const visibleEmployeeHours = searchTerm
+    ? employeeHours.filter(({ employee }) => (
+        `${employee.firstName} ${employee.lastName}`.toLowerCase().includes(searchTerm) ||
+        employee.email.toLowerCase().includes(searchTerm) ||
+        employee.employeeNumber.toLowerCase().includes(searchTerm) ||
+        employee.position.toLowerCase().includes(searchTerm) ||
+        employee.department.toLowerCase().includes(searchTerm)
+      ))
+    : employeeHours;
+  const clockedInEmployees = visibleEmployeeHours.filter(row => row.isWorking);
+  const notClockedInEmployees = visibleEmployeeHours.filter(row => !row.isWorking);
   const nextPayDay = getNextPayDay();
 
   useEffect(() => {
@@ -94,7 +105,7 @@ export function Dashboard() {
       const notifications = notificationsResult.data || [];
       const payroll = payrollResult.data || [];
 
-      const clockedIn = todayRecords.filter(r => r.status === 'clocked-in').length;
+      const clockedIn = todayRecords.filter(r => r.status === 'clocked-in' || r.status === 'on-break').length;
       const totalSeconds = todayRecords.reduce(
         (sum, r) => sum + getRecordSeconds(r),
         0
@@ -277,25 +288,54 @@ export function Dashboard() {
 
         <Card className="schedule-card">
           <CardHeader 
-            title="Employee Hours" 
-            subtitle="Today by employee"
+            title="Clock Status" 
+            subtitle="Currently in and not clocked in"
           />
           <CardContent>
-            <div className="employee-hours-list">
-              {employeeHours.map(({ employee, totalSeconds, isWorking }) => (
-                <div key={employee.id} className="employee-hours-row">
-                  <div>
-                    <strong>{employee.firstName} {employee.lastName}</strong>
-                    <span>{isWorking ? 'Working now' : 'Not clocked in'}</span>
-                  </div>
-                  <span className={totalSeconds > 0 ? 'hours-pill active' : 'hours-pill'}>
-                    {formatDuration(totalSeconds)}
-                  </span>
+            <div className="clock-status-groups">
+              <div className="clock-status-section">
+                <div className="clock-status-heading">
+                  <strong>Clocked In Now</strong>
+                  <span>{clockedInEmployees.length}</span>
                 </div>
-              ))}
-              {employeeHours.length === 0 && (
-                <div className="empty-state">No employees found.</div>
-              )}
+                <div className="employee-hours-list">
+                  {clockedInEmployees.map(({ employee, totalSeconds }) => (
+                    <div key={employee.id} className="employee-hours-row working-row">
+                      <div>
+                        <strong>{employee.firstName} {employee.lastName}</strong>
+                        <span>{employee.position}</span>
+                      </div>
+                      <span className="hours-pill active">{formatDuration(totalSeconds)}</span>
+                    </div>
+                  ))}
+                  {clockedInEmployees.length === 0 && (
+                    <div className="empty-state compact">No one is clocked in right now.</div>
+                  )}
+                </div>
+              </div>
+
+              <div className="clock-status-section">
+                <div className="clock-status-heading">
+                  <strong>Not Clocked In</strong>
+                  <span>{notClockedInEmployees.length}</span>
+                </div>
+                <div className="employee-hours-list">
+                  {notClockedInEmployees.map(({ employee, totalSeconds }) => (
+                    <div key={employee.id} className="employee-hours-row">
+                      <div>
+                        <strong>{employee.firstName} {employee.lastName}</strong>
+                        <span>{employee.position}</span>
+                      </div>
+                      <span className={totalSeconds > 0 ? 'hours-pill' : 'hours-pill inactive'}>
+                        {totalSeconds > 0 ? formatDuration(totalSeconds) : 'Not started'}
+                      </span>
+                    </div>
+                  ))}
+                  {notClockedInEmployees.length === 0 && (
+                    <div className="empty-state compact">Everyone is clocked in.</div>
+                  )}
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>

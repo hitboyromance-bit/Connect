@@ -19,6 +19,12 @@ service cloud.firestore {
         );
     }
 
+    function ownsEmployee(employeeId) {
+      return signedIn()
+        && exists(/databases/$(database)/documents/employees/$(employeeId))
+        && get(/databases/$(database)/documents/employees/$(employeeId)).data.email == request.auth.token.email;
+    }
+
     match /users/{userId} {
       allow read: if signedIn();
       allow create: if signedIn() && request.auth.uid == userId;
@@ -31,14 +37,28 @@ service cloud.firestore {
     }
 
     match /timeRecords/{recordId} {
-      allow read: if isStaff() || (signedIn() && resource.data.employeeId == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.employeeId == request.auth.uid;
-      allow update: if isStaff() || (signedIn() && resource.data.employeeId == request.auth.uid);
+      allow read: if isStaff()
+        || (signedIn() && resource.data.employeeId == request.auth.uid)
+        || ownsEmployee(resource.data.employeeId);
+      allow create: if signedIn()
+        && (
+          request.resource.data.employeeId == request.auth.uid
+          || ownsEmployee(request.resource.data.employeeId)
+        );
+      allow update: if isStaff()
+        || (signedIn() && resource.data.employeeId == request.auth.uid)
+        || ownsEmployee(resource.data.employeeId);
     }
 
     match /timeApprovalRequests/{requestId} {
-      allow read: if isStaff() || (signedIn() && resource.data.employeeId == request.auth.uid);
-      allow create: if signedIn() && request.resource.data.employeeId == request.auth.uid;
+      allow read: if isStaff()
+        || (signedIn() && resource.data.employeeId == request.auth.uid)
+        || ownsEmployee(resource.data.employeeId);
+      allow create: if signedIn()
+        && (
+          request.resource.data.employeeId == request.auth.uid
+          || ownsEmployee(request.resource.data.employeeId)
+        );
       allow update: if isStaff();
     }
 
@@ -57,13 +77,16 @@ service cloud.firestore {
     }
 
     match /payrollRecords/{recordId} {
-      allow read: if isStaff() || (signedIn() && resource.data.employeeId == request.auth.uid);
+      allow read: if isStaff()
+        || (signedIn() && resource.data.employeeId == request.auth.uid)
+        || ownsEmployee(resource.data.employeeId);
       allow create, update: if isAdmin();
     }
 
     match /notifications/{notificationId} {
       allow read: if isStaff()
-        || (signedIn() && (resource.data.userId == request.auth.uid || resource.data.userId == 'all'));
+        || (signedIn() && (resource.data.userId == request.auth.uid || resource.data.userId == 'all'))
+        || ownsEmployee(resource.data.userId);
       allow create: if signedIn();
       allow update: if isStaff() || (signedIn() && resource.data.userId == request.auth.uid);
     }

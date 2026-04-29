@@ -6,9 +6,13 @@ import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
 import { getCurrentUser, getCurrentUserDisplay, setCurrentUser } from '../utils/currentUser';
 import { getRoleHomePath } from '../utils/roleNavigation';
+import { applyThemePreference, getThemePreference, type ThemePreference } from '../utils/theme';
 import { firebaseService } from '../services/firebase';
 import type { BankDetails, BankDetailsFormValues } from '../types';
 import './Settings.css';
+
+const notificationSettingsKey = 'connect-notification-settings';
+const languageSettingKey = 'connect-language';
 
 export function Settings() {
   const navigate = useNavigate();
@@ -24,11 +28,32 @@ export function Settings() {
     phone: '+1 555-0100',
   });
 
-  const [notificationSettings, setNotificationSettings] = useState({
-    emailNotifications: true,
-    scheduleAlerts: true,
-    payrollNotifications: true,
-    attendanceAlerts: true,
+  const [notificationSettings, setNotificationSettings] = useState(() => {
+    const savedSettings = localStorage.getItem(notificationSettingsKey);
+    if (!savedSettings) {
+      return {
+        emailNotifications: true,
+        scheduleAlerts: true,
+        payrollNotifications: true,
+        attendanceAlerts: true,
+      };
+    }
+
+    try {
+      return JSON.parse(savedSettings) as {
+        emailNotifications: boolean;
+        scheduleAlerts: boolean;
+        payrollNotifications: boolean;
+        attendanceAlerts: boolean;
+      };
+    } catch {
+      return {
+        emailNotifications: true,
+        scheduleAlerts: true,
+        payrollNotifications: true,
+        attendanceAlerts: true,
+      };
+    }
   });
   const [bankDetails, setBankDetails] = useState<BankDetails | null>(null);
   const [bankForm, setBankForm] = useState<BankDetailsFormValues>({
@@ -41,6 +66,9 @@ export function Settings() {
   const [bankMessage, setBankMessage] = useState('');
   const [bankErrors, setBankErrors] = useState<Record<string, string>>({});
   const [profileMessage, setProfileMessage] = useState('');
+  const [themePreference, setThemePreference] = useState<ThemePreference>(getThemePreference);
+  const [language, setLanguage] = useState(() => localStorage.getItem(languageSettingKey) || 'en');
+  const [settingsMessage, setSettingsMessage] = useState('');
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -62,6 +90,37 @@ export function Settings() {
     }
     setCurrentUser(result.data);
     setProfileMessage('Profile saved.');
+  };
+
+  const handleThemeChange = (theme: ThemePreference) => {
+    setThemePreference(theme);
+    applyThemePreference(theme);
+    setSettingsMessage('');
+  };
+
+  const saveNotificationSettings = () => {
+    localStorage.setItem(notificationSettingsKey, JSON.stringify(notificationSettings));
+    setSettingsMessage('Notification settings saved.');
+  };
+
+  const saveAppearanceSettings = () => {
+    applyThemePreference(themePreference);
+    localStorage.setItem(languageSettingKey, language);
+    setSettingsMessage('Appearance settings saved.');
+  };
+
+  const handlePasswordReset = async () => {
+    if (!currentUser.email) {
+      setSettingsMessage('No email is connected to this account.');
+      return;
+    }
+
+    const result = await firebaseService.resetUserPassword(currentUser.email);
+    setSettingsMessage(
+      result.success
+        ? `Password reset link sent to ${currentUser.email}.`
+        : result.error || 'Unable to send password reset link.'
+    );
   };
 
   const saveBankWire = async () => {
@@ -264,10 +323,11 @@ export function Settings() {
                     </div>
                   </div>
                   <div className="form-actions">
-                    <Button icon={<Save size={18} />} onClick={handleSave}>
+                    <Button icon={<Save size={18} />} onClick={saveNotificationSettings}>
                       Save Changes
                     </Button>
                   </div>
+                  {settingsMessage && <div className="bank-message">{settingsMessage}</div>}
                 </div>
               </CardContent>
             </Card>
@@ -394,10 +454,11 @@ export function Settings() {
                     />
                   </div>
                   <div className="form-actions">
-                    <Button icon={<Save size={18} />} onClick={handleSave}>
-                      Update Password
+                    <Button icon={<Save size={18} />} onClick={handlePasswordReset}>
+                      Send Reset Link
                     </Button>
                   </div>
+                  {settingsMessage && <div className="bank-message">{settingsMessage}</div>}
                 </div>
               </CardContent>
             </Card>
@@ -411,15 +472,27 @@ export function Settings() {
                   <div className="appearance-option">
                     <label className="input-label">Theme</label>
                     <div className="theme-options">
-                      <button className="theme-option active">
+                      <button
+                        type="button"
+                        className={`theme-option ${themePreference === 'light' ? 'active' : ''}`}
+                        onClick={() => handleThemeChange('light')}
+                      >
                         <div className="theme-preview light" />
                         <span>Light</span>
                       </button>
-                      <button className="theme-option">
+                      <button
+                        type="button"
+                        className={`theme-option ${themePreference === 'dark' ? 'active' : ''}`}
+                        onClick={() => handleThemeChange('dark')}
+                      >
                         <div className="theme-preview dark" />
                         <span>Dark</span>
                       </button>
-                      <button className="theme-option">
+                      <button
+                        type="button"
+                        className={`theme-option ${themePreference === 'system' ? 'active' : ''}`}
+                        onClick={() => handleThemeChange('system')}
+                      >
                         <div className="theme-preview system" />
                         <span>System</span>
                       </button>
@@ -427,7 +500,14 @@ export function Settings() {
                   </div>
                   <div className="appearance-option">
                     <label className="input-label">Language</label>
-                    <select className="input-field">
+                    <select
+                      className="input-field"
+                      value={language}
+                      onChange={(event) => {
+                        setLanguage(event.target.value);
+                        setSettingsMessage('');
+                      }}
+                    >
                       <option value="en">English</option>
                       <option value="es">Spanish</option>
                       <option value="fr">French</option>
@@ -435,10 +515,11 @@ export function Settings() {
                     </select>
                   </div>
                   <div className="form-actions">
-                    <Button icon={<Save size={18} />} onClick={handleSave}>
+                    <Button icon={<Save size={18} />} onClick={saveAppearanceSettings}>
                       Save Changes
                     </Button>
                   </div>
+                  {settingsMessage && <div className="bank-message">{settingsMessage}</div>}
                 </div>
               </CardContent>
             </Card>
