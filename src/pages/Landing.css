@@ -27,8 +27,8 @@
 }
 
 .landing-logo span {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: var(--radius-lg);
   background: #F0D7B6;
   border: 1px solid #C8A779;
@@ -37,11 +37,13 @@
   align-items: center;
   justify-content: center;
   font-weight: 800;
+  font-size: 24px;
 }
 
 .landing-logo strong {
-  font-size: 4px;
+  font-size: 24px;
   font-weight: 800;
+  color: var(--text-primary);
 }
 
 .landing-actions a,
