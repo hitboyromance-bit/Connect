@@ -1,0 +1,381 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.1s; }
+.stat-card:nth-child(3) { animation-delay: 0.15s; }
+.stat-card:nth-child(4) { animation-delay: 0.2s; }
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.recent-employees-card {
+  grid-column: span 1;
+}
+
+.activity-card {
+  grid-column: span 1;
+}
+
+.schedule-card {
+  grid-column: span 1;
+}
+
+.calendar-card {
+  grid-column: span 1;
+}
+
+.missed-clock-card {
+  grid-column: span 2;
+}
+
+/* Employee List */
+.employee-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.employee-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--background);
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+}
+
+.employee-item:hover {
+  background: #F1F5F9;
+}
+
+.employee-avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.employee-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.employee-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.employee-position {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.employee-status {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  text-transform: capitalize;
+}
+
+.employee-status.status-active {
+  background: #ECFDF5;
+  color: #059669;
+}
+
+.employee-status.status-inactive {
+  background: #FEF2F2;
+  color: #DC2626;
+}
+
+/* Activity List */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity-icon.clock-in {
+  background: #ECFDF5;
+  color: #059669;
+}
+
+.activity-icon.hours {
+  background: #FFFBEB;
+  color: #D97706;
+}
+
+.activity-icon.notifications {
+  background: #EFF6FF;
+  color: #2563EB;
+}
+
+.activity-icon.payday {
+  background: #F5F3FF;
+  color: #8B5CF6;
+}
+
+.activity-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.activity-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Schedule Grid */
+.schedule-grid {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 160px;
+  padding-top: 16px;
+}
+
+.schedule-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.day-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.day-bar {
+  width: 32px;
+  background: var(--primary);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  min-height: 20px;
+  transition: all var(--transition);
+}
+
+.day-hours {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.employee-hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.employee-hours-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  background: var(--background);
+  border-radius: var(--radius-md);
+}
+
+.employee-hours-row div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.employee-hours-row strong {
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.employee-hours-row span {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.hours-pill {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: #F1F5F9;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.hours-pill.active {
+  background: #ECFDF5;
+  color: #059669;
+}
+
+.hours-pill.warning {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.alert-row {
+  border: 1px solid #FDE68A;
+  background: #FFFBEB;
+}
+
+.dashboard-calendar-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.dashboard-calendar-title span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dashboard-calendar-weekdays,
+.dashboard-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.dashboard-calendar-weekdays span {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.dashboard-calendar-grid span {
+  min-height: 34px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.dashboard-calendar-grid span.payday {
+  background: #F5F3FF;
+  color: #6D28D9;
+}
+
+.dashboard-calendar-grid span.today {
+  background: var(--primary);
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recent-employees-card,
+  .activity-card,
+  .schedule-card,
+  .calendar-card,
+  .missed-clock-card {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+}

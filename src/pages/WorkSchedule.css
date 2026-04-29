@@ -1,0 +1,463 @@
+.work-schedule-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.schedule-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.schedule-tabs button {
+  padding: 13px 18px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.schedule-tabs button.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.schedule-tabs span {
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 99px;
+  background: var(--error);
+  color: white;
+  font-size: 11px;
+}
+
+.schedule-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+}
+
+.schedule-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--primary);
+}
+
+.schedule-stat-card span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.schedule-stat-card strong {
+  color: var(--text-primary);
+  font-size: 26px;
+}
+
+.schedule-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.schedule-controls label,
+.schedule-editor-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.schedule-controls select,
+.schedule-controls input,
+.schedule-editor-grid input {
+  min-width: 150px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.schedule-editor-grid,
+.schedule-display-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.schedule-editor-grid input,
+.schedule-display-grid div {
+  text-align: center;
+}
+
+.schedule-time-editor {
+  display: grid;
+  grid-template-rows: auto 1fr 1fr auto;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+}
+
+.schedule-time-editor strong,
+.schedule-time-editor span {
+  text-align: center;
+}
+
+.schedule-time-editor > span {
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.schedule-time-editor input {
+  min-width: 0;
+  width: 100%;
+}
+
+.schedule-display-grid div {
+  padding: 14px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+}
+
+.schedule-display-grid div.has-hours {
+  background: #eff6ff;
+  color: var(--primary);
+}
+
+.schedule-display-grid span {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.schedule-display-grid small {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.employee-week-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.employee-time-clock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--background);
+}
+
+.time-clock-status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.time-clock-status span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.time-clock-status strong {
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+.time-clock-status small {
+  color: var(--text-secondary);
+}
+
+.employee-time-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.time-clock-message {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--error);
+  font-size: 14px;
+}
+
+.payday-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius-lg);
+  background: #F5F3FF;
+  border: 1px solid #DDD6FE;
+  color: #6D28D9;
+}
+
+.payday-banner div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.payday-banner strong {
+  color: var(--text-primary);
+}
+
+.payday-banner span {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.employee-week-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.employee-week-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.employee-week-row strong {
+  color: var(--text-primary);
+}
+
+.employee-week-row span {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.hours-chip {
+  min-width: 76px;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 99px;
+  background: #f1f5f9;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.hours-chip.active {
+  background: #dcfce7;
+  color: var(--success);
+}
+
+.schedule-save-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hours-row,
+.schedule-table-row,
+.approval-row {
+  display: grid;
+  grid-template-columns: 180px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.hours-bar-bg {
+  height: 8px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.hours-bar-fill {
+  height: 100%;
+  background: var(--primary);
+}
+
+.schedule-table,
+.approval-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.approval-row {
+  grid-template-columns: 1fr auto auto;
+}
+
+.approval-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.approval-row span {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.next-shift-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+
+.banner-label {
+  font-size: 12px;
+  opacity: 0.75;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.banner-calendar-btn {
+  border: none;
+  background: transparent;
+  color: white;
+  padding: 8px;
+  border-radius: var(--radius-md);
+}
+
+.banner-calendar-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.mini-calendar {
+  width: min(360px, 100%);
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.mini-calendar-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.mini-calendar-header span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mini-calendar-weekdays,
+.mini-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.mini-calendar-weekdays span {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.mini-calendar-grid span {
+  min-height: 34px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.mini-calendar-grid span.payday {
+  background: #F5F3FF;
+  color: #6D28D9;
+}
+
+.mini-calendar-grid span.today {
+  background: var(--primary);
+  color: white;
+}
+
+.next-shift-banner h2 {
+  margin: 4px 0;
+  font-size: 24px;
+}
+
+@media (max-width: 760px) {
+  .schedule-editor-grid,
+  .schedule-display-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hours-row,
+  .schedule-table-row,
+  .approval-row {
+    grid-template-columns: 1fr;
+  }
+
+  .employee-time-clock {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .employee-time-actions {
+    justify-content: flex-start;
+  }
+}

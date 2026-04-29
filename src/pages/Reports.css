@@ -1,0 +1,132 @@
+.reports-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.reports-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.reports-header h2 {
+  margin: 0 0 4px;
+  color: var(--text-primary);
+  font-size: 24px;
+}
+
+.reports-header .subtitle {
+  color: var(--text-secondary);
+}
+
+.reports-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.reports-filter {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.reports-filter label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.reports-filter input {
+  min-width: 160px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.reports-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--primary);
+}
+
+.reports-stat span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.reports-stat strong {
+  color: var(--text-primary);
+  font-size: 24px;
+}
+
+.reports-table,
+.audit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reports-row,
+.audit-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+}
+
+.reports-row div,
+.audit-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.reports-row span,
+.audit-row span,
+.audit-row small {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.audit-row {
+  grid-template-columns: auto 1fr auto;
+}
+
+.reports-empty,
+.reports-state {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.reports-state.error {
+  color: var(--error);
+}
+
+@media (max-width: 760px) {
+  .reports-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reports-row,
+  .audit-row {
+    grid-template-columns: 1fr;
+  }
+}
